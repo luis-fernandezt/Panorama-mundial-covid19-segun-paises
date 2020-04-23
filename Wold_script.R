@@ -1,5 +1,5 @@
-## data covid19 - descargamos la carpeta de trabajo
-## adata disponible en: chttps://ourworldindata.org/coronavirus-source-data
+## data covid19 - descargamos en la carpeta de trabajo
+## data disponible en: chttps://ourworldindata.org/coronavirus-source-data
 ## mapa mundial - descargamos y descomprimimos en la carpeta de trabajo
 ## gadm.org mapa disponible en: https://biogeo.ucdavis.edu/data/gadm3.6/gadm36_levels_shp.zip
 
@@ -19,7 +19,7 @@ library(viridis)
 shp <- shapefile('./gadm36_levels_shp/gadm36_0.shp') 
 shp@data$NAME_0 <- iconv(shp@data$NAME_0, from = 'UTF-8', to = 'latin1')
 
-shp <- shp[shp@data$NAME_0 != "Antarctica" ,  ] # extraemos Antártica
+shp <- shp[shp@data$NAME_0 != "Antarctica" ,  ] # extraemos AntÃ¡rtica
 
 Contry <- st_as_sf(shp) #convertimos en un objeto sf (lento)
 view(Contry$NAME_0)
@@ -29,16 +29,16 @@ view(Contry$NAME_0)
 full_data <- read.csv("./full_data_21abr.csv")
 tail(full_data)
 
-tbl <- full_data %>% filter(date == "2020-04-21") #fecha de interés
+tbl <- full_data %>% filter(date == "2020-04-21") #fecha de interÃ©s
 table(tbl$location)
 
-## cambiamos los nombres de países para que shp coincida con los del archivo *.csv ####
+## cambiamos los nombres de paÃ­ses para que shp coincida con los del archivo *.csv ####
 Contry$NAME_0 <- c(
 "Aruba",
 "Afghanistan",
 "Angola",
 "Anguilla",
-"Åland",
+"Ã…land",
 "Albania",
 "Andorra",
 "United Arab Emirates",
@@ -60,7 +60,7 @@ Contry$NAME_0 <- c(
 "Bahrain",
 "Bahamas",
 "Bosnia and Herzegovina",
-"Saint-Barthélemy",
+"Saint-BarthÃ©lemy",
 "Belarus",
 "Belize",
 "Bermuda",
@@ -299,7 +299,7 @@ mps_casos <- tbl %>%
 mps_casos_sft <- st_as_sf(Contry) %>% 
   inner_join(., y = mps_casos, by = c('NAME_0' = 'location')) 
 
-## quantiles para casos totales según país ####
+## quantiles para casos totales segÃºn paÃ­s ####
 # quiebre por quantiles rangos ingresados manualmente
 quantiles <- quantile(mps_casos_sft$total_cases, 
                       probs = c(0, 0.17, 0.33, 0.5, 0.6635, 0.8295, 0.9, 0.95, 0.975,0.99, 1),
@@ -308,7 +308,7 @@ quantiles <- quantile(mps_casos_sft$total_cases,
 labels <- c() # creamos etiqueta de clases
 
 for(idx in 1:length(quantiles)){ #redondeamos los valores a miles "k" y dos digitos
-  labels <- c(labels,paste0(round(quantiles[idx + 1] / 1000, 2), #dejando solo límite superior para visualizar
+  labels <- c(labels,paste0(round(quantiles[idx + 1] / 1000, 2), #dejando solo lÃ­mite superior para visualizar
                             "k"))
 }
 
@@ -319,7 +319,7 @@ mps_casos_sft$total_cases_qt <- cut(mps_casos_sft$total_cases, #guardamos la nue
                      labels = labels,
                      include.lowest = TRUE)
 
-## gg1 -plotiamos Casos_totales_qt por país y guardamos ####
+## gg1 -plotiamos Casos_totales_qt por paÃ­s y guardamos ####
 gg1 <- ggplot() +
   
   geom_sf(data = Contry, color= 'white', size=0.2, fill = 'grey') +
@@ -338,9 +338,9 @@ gg1 <- ggplot() +
   
   labs(x = NULL, 
        y = NULL,
-       title = "Panorama Mundial Covid19 según países", 
+       title = "Panorama Mundial Covid19 segÃºn paÃ­ses", 
        subtitle = "21 de abril de 2020", 
-       caption = "Autor: L. Fernández, Data: ourworldindata.org, Mapa: naturalearthdata.com, Recursos ggplot: timogrossenbacher.ch") +
+       caption = "Autor: L. FernÃ¡ndez, Data: ourworldindata.org, Mapa: naturalearthdata.com, Recursos ggplot: timogrossenbacher.ch") +
   
   scale_fill_viridis(option = "magma",
                      name = "Casos covid19",
