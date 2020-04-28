@@ -14,7 +14,7 @@ library(ggrepel)
 library(ggpubr)
 library(classInt)
 library(viridis)
-
+ 
 ## cargamos mapa mundi ####
 shp <- shapefile('./gadm36_levels_shp/gadm36_0.shp') 
 shp@data$NAME_0 <- iconv(shp@data$NAME_0, from = 'UTF-8', to = 'latin1')
