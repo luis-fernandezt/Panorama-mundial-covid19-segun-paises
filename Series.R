@@ -58,4 +58,4 @@ ggplot(data=full_data, aes(x=elapsed_days, y=total_deaths_per_million, group=loc
   scale_x_continuous(trans = 'sqrt', breaks = c(1,2,3,4,5,10,15,18,25,30,60,90,120,150)) +
   ylab("Cantidad de fallecidos cada millon de habitantes") +
   xlab("Días transcurridos desde el primer fallecido por covid19") +
-  labs(caption = "Autor: L.Fernández, Data: https://ourworldindata.org/coronavirus-source-data")
+  labs(caption = "Autor: L.Fernández, Data: https://ourworldindata.org/coronavirus-source-data") 
