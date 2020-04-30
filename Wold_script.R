@@ -1,5 +1,5 @@
 ## data covid19 - descargamos en la carpeta de trabajo
-## data disponible en: chttps://ourworldindata.org/coronavirus-source-data
+## data disponible en: https://ourworldindata.org/coronavirus-source-data
 ## mapa mundial - descargamos y descomprimimos en la carpeta de trabajo
 ## gadm.org mapa disponible en: https://biogeo.ucdavis.edu/data/gadm3.6/gadm36_levels_shp.zip
 
@@ -340,7 +340,7 @@ gg1 <- ggplot() +
        y = NULL,
        title = "Panorama Mundial Covid19 según países", 
        subtitle = "21 de abril de 2020", 
-       caption = "Autor: L. Fernández, Data: ourworldindata.org, Mapa: naturalearthdata.com, Recursos ggplot: timogrossenbacher.ch") +
+       caption = "Autor: L. Fernández, Data: ourworldindata.org, Mapa: gadm.org, Recursos ggplot2: timogrossenbacher.ch") +
   
   scale_fill_viridis(option = "magma",
                      name = "Casos covid19",
