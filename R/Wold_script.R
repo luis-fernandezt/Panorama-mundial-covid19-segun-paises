@@ -1,5 +1,5 @@
 ## data covid19 - descargamos en la carpeta de trabajo
-## data disponible en: chttps://ourworldindata.org/coronavirus-source-data
+## data disponible en: https://ourworldindata.org/coronavirus-source-data
 ## mapa mundial - descargamos y descomprimimos en la carpeta de trabajo
 ## naturalearthdata.com mapa disponible en: https://www.naturalearthdata.com/downloads/10m-cultural-vectors/
 ## script guardado en formato Latin1 para no perder caracteres
