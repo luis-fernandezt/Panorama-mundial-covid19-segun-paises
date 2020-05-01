@@ -5,7 +5,7 @@
 ## script guardado en formato Latin1 para no perder caracteres
 
 ## cargamos librerias ####
-require(raster) 
+require(raster)  
 require(tidyverse)
 require(sf)
 library(readxl)
