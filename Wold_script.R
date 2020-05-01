@@ -356,6 +356,8 @@ gg1 <- ggplot() +
                                           label.position = "bottom")) +
   ylim(-67, 83)
 
+gg1
+
 ## gguardamos gg1 como imagen (opcional)
 ggsave(plot = gg1, filename = './Situacion_mundial_covid19_2.png', 
        units = 'mm', width = 279, height = 216, dpi = 300)
