@@ -7,3 +7,7 @@ En este repositorio puede encontrar dos scrips en lenguaje R, para visualizar la
 ![fall_mill](https://raw.githubusercontent.com/luis-fernandezt/Panorama-mundial-covid19-segun-paises/master/Graficos/total_deaths_per_million-01.png)
 
 Las imágenes fueron mejoradas utilizando Adobe Illustrator*
+Fuente: Elaboración propia.
+
+#### **Versión de Rstudio:**
+"R version 3.6.3 (2020-02-29)"
