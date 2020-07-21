@@ -283,7 +283,7 @@ library(readr)
 owid_covid_data <- read_csv("https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv")
 names(owid_covid_data)
 
-data <- owid_covid_data %>% filter(date == "2020-04-29") # usar max(date) con precaución.
+data <- owid_covid_data %>% filter(date == "2020-06-09") # usar max(date) con precaución.
 View(data$location)
 
 # fortificamos los datos ####
@@ -334,7 +334,7 @@ gg1 <- ggplot() +
   labs(x = NULL, 
        y = NULL,
        title = "Panorama Mundial Covid19 según países", 
-       subtitle = "29 de abril de 2020", 
+       subtitle = "", 
        caption = "Autor: L. Fernández, Data: ourworldindata.org, Mapa: naturalearthdata.com, Recursos ggplot: timogrossenbacher.ch") +
   
   scale_fill_viridis(option = "magma",
@@ -359,5 +359,5 @@ gg1 <- ggplot() +
 gg1
 
 ## gguardamos gg1 como imagen (opcional)
-ggsave(plot = gg1, filename = './Situacion_mundial_covid19_2.png', 
+ggsave(plot = gg1, filename = './Situacion_mundial_covid19.png', 
        units = 'mm', width = 279, height = 216, dpi = 300)

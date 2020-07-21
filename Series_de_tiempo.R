@@ -11,10 +11,11 @@ library(dplyr)
 #total_cases_per_million
 #load data
 full_data <- read_excel("./Data/total_cases_per_million.xlsx")
+full_data <- as.data.frame(full_data)
 
 c_compare_cases <- full_data %>% 
-  filter(location %in% c("Ecuador","Brazil", "Argentina","Italy", "Spain", "United States",
-                         "United Kingdom", "France", "Germany", "China", "India")) #"Andorra", "San Marino", "India"
+  filter(location %in% c("Qatar","Brazil", "Argentina","Italy", "United States",
+                         "Peru", "Vatican", "Germany", "China", "San Marino")) #"Andorra", "San Marino", "India"
 
 chile <- full_data %>%  filter(location %in% c("Chile"))
 
@@ -33,7 +34,7 @@ ggplot(full_data, aes(x=elapsed_days, y=total_cases_per_million, group=location,
         axis.text = element_text(size = 10),
         panel.grid=element_line(color="#00000000")) +
   scale_y_continuous(trans = 'log1p', breaks = c(1,2,3,4,5,10,50, 100, 250, 500, 700, 1000, 2500, 5000, 10000)) + 
-  scale_x_continuous(trans = 'identity', breaks = c(1,15,30,45, 60,75, 90,105,120)) +
+  scale_x_continuous(trans = 'identity', breaks = c(1,15,30,45, 60,75, 90,105,120,140,160)) +
   geom_hline(aes(yintercept = max(chile$total_cases_per_million)), color="red", linetype = 'dashed') +
   geom_vline(aes(xintercept = max(chile$elapsed_days)), color="red", linetype = 'dashed') +
   ylab("Cantidad de casos positivos cada millon de habitantes") +
@@ -44,10 +45,11 @@ ggplot(full_data, aes(x=elapsed_days, y=total_cases_per_million, group=location,
 #plot total_deaths_per_million
 
 full_data_2 <- read_excel("./Data/total_deaths_per_million.xlsx")
+full_data_2 <- as.data.frame(full_data)
 
 c_compare_deaths <- full_data_2 %>% 
-  filter(location %in% c("Ecuador","Brazil", "Argentina","Italy","United States",
-                         "United Kingdom", "France", "Germany", "China", "India", "Spain")) #"San Marino", "India"
+  filter(location %in% c("San Marino","Brazil", "Argentina","Italy","United States",
+                         "Peru", "France", "Germany", "China", "Belgium", "United Kingdom")) #"San Marino", "India"
 
 chile2 <- full_data_2 %>%  filter(location %in% c("Chile"))
 
@@ -66,7 +68,7 @@ ggplot(data=full_data_2, aes(x=elapsed_days, y=total_deaths_per_million, group=l
         axis.text = element_text(size = 10),
         panel.grid=element_line(color="#00000000")) +
   scale_y_continuous(trans = 'log1p',breaks = c(1,2,3,4,5,10,25, 50,100,250, 500, 1250)) + 
-  scale_x_continuous(trans = 'identity',breaks = c(1,5,10,20,30,40, 50, 60, 70, 80, 90,105, 120)) +
+  scale_x_continuous(trans = 'identity', breaks = c(1, 5, 10, 20, 30,40, 50, 60, 70, 80, 90, 105, 120,140,160)) +
   geom_hline(aes(yintercept = max(chile2$total_deaths_per_million)), color="red", linetype = 'dashed') +
   geom_vline(aes(xintercept = max(chile2$elapsed_days)), color="red", linetype = 'dashed') +
   ylab("Cantidad de fallecidos cada millon de habitantes") +
