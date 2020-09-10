@@ -1,81 +1,108 @@
-#cargamos librerías
+#Load library
 library(readxl)
 library(ggplot2)
 library(dplyr)
+library(readr)
 
-# cargamos base de datos
-# descargamos data desde https://ourworldindata.org/coronavirus-source-data
-# creamos una columna en excel llamada "elapsed_days" con la formula: "=ABS(DIAS(MIN.SI.CONJUNTO($C$2:$C$13493;$B$2:$B$13493;B2);C2))"
+# Load Data Frama from OWD
+owid_covid_data <- read_csv("https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv")
+owid_covid_data <- as.data.frame(owid_covid_data)
+names(owid_covid_data)
+max(owid_covid_data$date)
+
+#filter by countries
+Chile <- owid_covid_data %>%  filter(location %in% c("Chile"))
+Brazil <- owid_covid_data %>%  filter(location %in% c("Brazil"))
+Argentina <- owid_covid_data %>%  filter(location %in% c("Argentina"))
+Peru <- owid_covid_data %>%  filter(location %in% c("Peru"))
+
+Spain <- owid_covid_data %>%  filter(location %in% c("Spain"))
+USA <- owid_covid_data %>%  filter(location %in% c("United States"))
+UK <- owid_covid_data %>%  filter(location %in% c("United Kingdom"))
+France <- owid_covid_data %>%  filter(location %in% c("France"))
+Belgium <- owid_covid_data %>%  filter(location %in% c("Belgium"))
+San_Marino <- owid_covid_data %>%  filter(location %in% c("San Marino"))
+Italy <- owid_covid_data %>%  filter(location %in% c("Italy"))
+
+China <- owid_covid_data %>%  filter(location %in% c("China"))
+Korea <- owid_covid_data %>%  filter(location %in% c("South Korea"))
+Andorra <- owid_covid_data %>%  filter(location %in% c("Andorra"))
+Qatar <- owid_covid_data %>%  filter(location %in% c("Qatar"))
+Bahrain <- owid_covid_data %>%  filter(location %in% c("Bahrain"))
+
+#total_deaths_per_million ####
+
+#join selected countries
+sdt_deaths_per_million <- rbind(Chile, Argentina, USA, Peru, Spain, France, Belgium,  China, Korea, San_Marino, Andorra)
+
+gg1 <- 
+  
+  ggplot(sdt_deaths_per_million, aes(x=date, y=total_deaths_per_million, group=location, color=location)) +
+  geom_line(color='grey95', size = 1.5, data = owid_covid_data) +
+  geom_line(size = 1.3, data = sdt_deaths_per_million %>% filter(total_deaths_per_million > 0)) + 
+  geom_text(aes(label = iso_code), size= 4, hjust = -0.1, data = sdt_deaths_per_million 
+            %>% filter(date == max(date)), show.legend = F) +
+  geom_line(color='darkred', size = 1.5, data = Chile %>% filter(total_deaths_per_million > 0)) +
+  geom_text(aes(label = iso_code), color='darkred', size= 4, hjust = -0.1, 
+            data = Chile %>% filter(date == max(date))) +
+  
+  scale_colour_viridis_d(name = "", option = 'D', begin = 0, end = 0.8, direction = -1, alpha=0.9) +
+       theme_classic() +
+  theme(legend.position = 'none', 
+        plot.title = element_text(hjust = 0.5, size = 18, face = "bold"),
+        plot.subtitle = element_text(hjust = 0.5, size = 16, face = "italic"),
+        legend.text = element_text(color = "black", size = 14)) +
+  scale_x_date(date_breaks = '7 day', date_labels = "%b %d") +
+  scale_y_continuous(trans = 'sqrt', breaks = c(10, 50, 100, 250, 500, 550, 600, 650, 700, 800, 900, 1000, 1500)) + 
+  geom_hline(aes(yintercept = max(Chile$total_deaths_per_million)), color="red", linetype = 'dashed') +
+  geom_vline(aes(xintercept = max(Chile$date)), color="red", linetype = 'dashed') +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(x = "date", 
+       y = "Total deaths per million", 
+       title = "Total deaths per million", 
+       subtitle = "September 10, 2020", 
+       caption = "Fuente: ourworldindata.org/coronavirus - github.com/owid")
+
+#gg1
+
+ggsave(plot = gg1, filename = './Graficos/total_deaths_per_million.png', #guardar como imagen
+       units = 'mm', width = 216, height = 279, dpi = 300)
 
 
-#total_cases_per_million
-#load data
-full_data <- read_excel("./Data/total_cases_per_million.xlsx")
-full_data <- as.data.frame(full_data)
+#total_cases_per_million ####
+#join selected countries
+sdt_cases_per_million <- rbind(Chile, Brazil, Argentina,  Peru, Spain, Italy, France, Belgium,  China, Korea, Bahrain, Qatar)
 
-c_compare_cases <- full_data %>% 
-  filter(location %in% c("Qatar","Brazil", "Argentina","Italy", "United States",
-                         "Peru", "Vatican", "Germany", "China", "San Marino")) #"Andorra", "San Marino", "India"
+gg2 <-
+  
+  ggplot(sdt_cases_per_million, aes(x=date, y=total_cases_per_million, group=location, color=location)) +
+  geom_line(color='grey95', size = 1.5, data = owid_covid_data) +
+  geom_line(size = 1.3, data = sdt_cases_per_million %>% filter(total_cases_per_million > 0)) +  
+  geom_text(aes(label = iso_code), size= 4, hjust = -0.1, data = sdt_cases_per_million 
+            %>% filter(date == max(date)), show.legend = F) +
+  geom_line(color='darkred', size = 1.5, data = Chile %>% filter(total_cases_per_million > 0)) + 
+  geom_text(aes(label = iso_code), color='darkred', size= 4, hjust = -0.1, 
+            data = Chile %>% filter(date == max(date))) +
+  
+  scale_colour_viridis_d(name = "", option = 'D', begin = 0, end = 0.8, direction = -1, alpha=0.9) +
+  theme_classic() +
+  theme(legend.position = 'none', 
+        plot.title = element_text(hjust = 0.5, size = 18, face = "bold"),
+        plot.subtitle = element_text(hjust = 0.5, size = 16, face = "italic"),
+        legend.text = element_text(color = "black", size = 14)) +
+  scale_x_date(date_breaks = '7 day', date_labels = "%b %d") +
+  scale_y_continuous(trans = 'sqrt', breaks = c(10, 100, 500, 1000, 50000, 10000, 20000, 30000, 40000)) + 
+  geom_hline(aes(yintercept = max(Chile$total_cases_per_million)), color="red", linetype = 'dashed') +
+  geom_vline(aes(xintercept = max(Chile$date)), color="red", linetype = 'dashed') +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(x = "date", 
+       y = "Total cases per million", 
+       title = "Total cases per million", 
+       subtitle = "September 10, 2020", 
+       caption = "Fuente: ourworldindata.org/coronavirus - github.com/owid")
 
-chile <- full_data %>%  filter(location %in% c("Chile"))
+#gg2
 
-#plot
-ggplot(full_data, aes(x=elapsed_days, y=total_cases_per_million, group=location, color=location)) +
-  geom_line(colour = 'grey95', size = 1.1) +
-  geom_line(size = 1.1, data = c_compare_cases) +
-  geom_line(color='darkred', size = 1.5, data = chile) +
-  geom_text(aes(label = iso_code), size= 4, hjust = -0.1, data = c_compare_cases %>% filter(date == max(date))) +
-  scale_colour_viridis_d(option = 'D', begin = 0,end = 0.8, direction = -1,alpha=0.8) +
-  geom_text(aes(label = iso_code), color='darkred', size= 4, hjust = -0.1, data = chile %>% filter(date == max(date))) +
-  theme_minimal() +
-  theme(axis.title = element_text(face = "bold"),
-        legend.position = 'right',
-        axis.line = element_line(colour = 'grey'), axis.ticks = element_line(colour = 'grey'), 
-        axis.text = element_text(size = 10),
-        panel.grid=element_line(color="#00000000")) +
-  scale_y_continuous(trans = 'log1p', breaks = c(1,2,3,4,5,10,50, 100, 250, 500, 700, 1000, 2500, 5000, 10000)) + 
-  scale_x_continuous(trans = 'identity', breaks = c(1,15,30,45, 60,75, 90,105,120,140,160)) +
-  geom_hline(aes(yintercept = max(chile$total_cases_per_million)), color="red", linetype = 'dashed') +
-  geom_vline(aes(xintercept = max(chile$elapsed_days)), color="red", linetype = 'dashed') +
-  ylab("Cantidad de casos positivos cada millon de habitantes") +
-  xlab("Días transcurridos desde el primer caso de covid19") +
-  labs(caption = "Autor: L.Fernández, Data: https://ourworldindata.org/coronavirus-source-data")
+ggsave(plot = gg2, filename = './Graficos/total_cases_per_million.png', #guardar como imagen
+       units = 'mm', width = 216, height = 279, dpi = 300)
 
-
-#plot total_deaths_per_million
-
-full_data_2 <- read_excel("./Data/total_deaths_per_million.xlsx")
-full_data_2 <- as.data.frame(full_data)
-
-c_compare_deaths <- full_data_2 %>% 
-  filter(location %in% c("San Marino","Brazil", "Argentina","Italy","United States",
-                         "Peru", "France", "Germany", "China", "Belgium", "United Kingdom")) #"San Marino", "India"
-
-chile2 <- full_data_2 %>%  filter(location %in% c("Chile"))
-
-
-ggplot(data=full_data_2, aes(x=elapsed_days, y=total_deaths_per_million, group=location, color=location)) +
-  geom_line(colour = 'grey95', size = 1.1) +
-  geom_line(size = 1.1, data = c_compare_deaths) +
-  geom_line(color='darkred', size = 1.5, data = chile2) +
-  geom_text(aes(label = iso_code), size= 4,hjust = -0.1, data = c_compare_deaths %>% filter(date == max(date))) +
-  scale_colour_viridis_d(option = 'D', begin = 0,end = 0.8, direction = -1,alpha=0.8) +
-  geom_text(aes(label = iso_code), color='darkred', size= 4, hjust = -0.1,  data = chile2 %>% filter(date == max(date))) +
-  theme_minimal() +
-  theme(axis.title = element_text(face = "bold"),
-        legend.position = 'right',
-        axis.line = element_line(colour = 'grey'), axis.ticks = element_line(colour = 'grey'), 
-        axis.text = element_text(size = 10),
-        panel.grid=element_line(color="#00000000")) +
-  scale_y_continuous(trans = 'log1p',breaks = c(1,2,3,4,5,10,25, 50,100,250, 500, 1250)) + 
-  scale_x_continuous(trans = 'identity', breaks = c(1, 5, 10, 20, 30,40, 50, 60, 70, 80, 90, 105, 120,140,160)) +
-  geom_hline(aes(yintercept = max(chile2$total_deaths_per_million)), color="red", linetype = 'dashed') +
-  geom_vline(aes(xintercept = max(chile2$elapsed_days)), color="red", linetype = 'dashed') +
-  ylab("Cantidad de fallecidos cada millon de habitantes") +
-  xlab("Días transcurridos desde el primer fallecido por covid19") +
-  labs(caption = "Autor: L.Fernández, Data: https://ourworldindata.org/coronavirus-source-data") 
-
-# For continuous scales, the name of a transformation object or the object itself. 
-# Built-in transformations include "asn", "atanh", "boxcox", "date", "exp", "hms", "identity", 
-# "log", "log10", "log1p", "log2", "logit", "modulus", "probability", "probit", "pseudo_log", "reciprocal", 
-# "reverse", "sqrt" and "time".

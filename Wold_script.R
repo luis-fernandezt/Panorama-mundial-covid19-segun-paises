@@ -1,14 +1,11 @@
-## data covid19 - descargamos en la carpeta de trabajo
 ## data disponible en: https://ourworldindata.org/coronavirus-source-data
-## mapa mundial - descargamos y descomprimimos en la carpeta de trabajo
 ## naturalearthdata.com mapa disponible en: https://www.naturalearthdata.com/downloads/10m-cultural-vectors/
 ## script guardado en formato Latin1 para no perder caracteres
-
 ## cargamos librerias ####
 require(raster)  
 require(tidyverse)
 require(sf)
-library(readxl)
+library(readr)
 library(ggplot2)
 require(ggspatial)
 library(ggrepel)
@@ -16,10 +13,12 @@ library(ggpubr)
 library(classInt)
 library(viridis)
  
-# cargamos mapa ####
+# cargamos poligono mapa mundi ####
 shp <- shapefile('./Countries/ne_10m_admin_0_countries_lakes.shp') 
 shp@data$NAME_EN <- iconv(shp@data$NAME_EN, from = 'UTF-8', to = 'latin1')
 
+#view(shp@data)
+shp <- shp[shp@data$NAME != "Antarctica" ,  ] #quitamos antartica del poligono
 Contry <- st_as_sf(shp) #convertimos en un objeto sf
 
 Contry$NAME_EN <-  c("Indonesia", #cambiamos nombres de países para que coincidan con csv
@@ -194,7 +193,7 @@ Contry$NAME_EN <-  c("Indonesia", #cambiamos nombres de países para que coincida
     "Siachen Glacier",
     "Baikonur",
     "Akrotiri",
-    "Antarctica",
+    #"Antarctica",
     "Australia",
     "Greenland",
     "Fiji",
@@ -278,13 +277,16 @@ Contry$NAME_EN <-  c("Indonesia", #cambiamos nombres de países para que coincida
     "Serranilla Bank",
     "Scarborough Shoal")
 
+View(data$location)
+view(shp@data$NAME_EN)
+
 ## load cvs
-library(readr)
 owid_covid_data <- read_csv("https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv")
 names(owid_covid_data)
 
-data <- owid_covid_data %>% filter(date == "2020-07-19") # usar max(date) con precaución.
-View(data$location)
+max(owid_covid_data$date)
+data <- owid_covid_data %>% filter(date == "2020-09-09") # usar max(date) con precaución.
+#data <- owid_covid_data %>% filter(date == max(date)) 
 
 # fortificamos los datos ####
 mps_casos <- data %>% 
@@ -334,7 +336,7 @@ gg1 <- ggplot() +
   labs(x = NULL, 
        y = NULL,
        title = "Panorama Mundial Covid19 según países", 
-       subtitle = "2020-07-19", 
+       subtitle = "09 de septiembre de 2020", 
        caption = "Autor: L. Fernández, Data: ourworldindata.org, Mapa: naturalearthdata.com, Recursos ggplot: timogrossenbacher.ch") +
   
   scale_fill_viridis(option = "magma",
@@ -359,5 +361,5 @@ gg1 <- ggplot() +
 gg1
 
 ## gguardamos gg1 como imagen (opcional)
-ggsave(plot = gg1, filename = './Situacion_mundial_covid19.png', 
+ggsave(plot = gg1, filename = './Graficos/Situacion_mundial_covid19.png', 
        units = 'mm', width = 279, height = 216, dpi = 300)
