@@ -55,18 +55,18 @@ Bahrain$elapsed_days <- as.numeric(as.character(difftime(Bahrain$date,min(Bahrai
 
 #total_deaths_per_million ####
 #join selected countries
-sdt_deaths_per_million <- rbind(Chile, Argentina, USA, Peru, Italy, France, Belgium,  China, Korea, San_Marino, Andorra)
+sdt_deaths_per_million <- rbind(Chile, Argentina, USA, Peru, Italy, Spain, France, Belgium,  China, Korea, San_Marino, Andorra)
 names(sdt_deaths_per_million)
 
 gg1 <- 
   ggplot(sdt_deaths_per_million, aes(x=elapsed_days, y=total_deaths_per_million, group=location, color=location)) +
-  geom_line(size = 1.3, data = sdt_deaths_per_million) + 
+  geom_line(size = 1.3, data = sdt_deaths_per_million %>% filter(date < "2020-09-14")) + 
   geom_text(aes(label = iso_code), size= 4, hjust = -0.1, data = sdt_deaths_per_million 
-            %>% filter(date == max(date)), show.legend = F) +
+            %>% filter(date == "2020-09-13"), show.legend = F) +
   
-  geom_line(color='darkred', size = 1.5, data = Chile) +
+  geom_line(color='darkred', size = 1.5, data = Chile %>% filter(date < "2020-09-14")) +
   geom_text(aes(label = iso_code), color='darkred', size= 4, hjust = -0.1, 
-            data = Chile %>% filter(date == max(date))) +
+            data = Chile %>% filter(date == "2020-09-13")) +
   
   scale_colour_viridis_d(name = "", option = 'D', begin = 0, end = 0.8, direction = -1, alpha=0.9) +
   
@@ -76,8 +76,8 @@ gg1 <-
         plot.subtitle = element_text(hjust = 0.5, size = 16, face = "italic"),
         legend.text = element_text(color = "black", size = 14)) +
   
-  scale_x_continuous(trans = 'sqrt', breaks = c(1,2,3,4,5,10,20,50,100,172,200,250)) + 
-  scale_y_continuous(trans = 'sqrt', breaks = c(10, 50, 100, 250, 500, 550, 616, 700, 800, 900, 1000, 1500)) + 
+  scale_x_continuous(trans = 'sqrt', breaks = c(1,2,3,4,5,10,20,50,100,175,200,250)) + 
+  scale_y_continuous(trans = 'sqrt', breaks = c(10, 50, 100, 250, 500, 550, 625, 700, 800, 900, 1000, 1500)) + 
   
   geom_hline(aes(yintercept = max(Chile$total_deaths_per_million)), color="red", linetype = 'dashed') +
   geom_vline(aes(xintercept = max(Chile$elapsed_days)), color="red", linetype = 'dashed') +
@@ -86,9 +86,9 @@ gg1 <-
   labs(x = "elapsed_days", 
        y = "Total deaths per million", 
        title = "Total deaths per million", 
-       subtitle = "September 11, 2020", 
+       subtitle = "September 13, 2020", 
        caption = "Fuente: ourworldindata.org/coronavirus - github.com/owid")
-gg1
+#gg1
 
 ggsave(plot = gg1, filename = './Graficos/total_deaths_per_million.png', #guardar como imagen
        units = 'mm', width = 216, height = 279, dpi = 300)
@@ -96,17 +96,17 @@ ggsave(plot = gg1, filename = './Graficos/total_deaths_per_million.png', #guarda
 
 #total_cases_per_million ####
 #join selected countries
-sdt_cases_per_million <- rbind(Chile, Brazil, Argentina,  Peru, Italy, France, Belgium,  China, Korea, Bahrain, Qatar)
+sdt_cases_per_million <- rbind(Chile, Brazil, Argentina,  Peru, Italy, Spain, France, Belgium,  China, Korea, Bahrain, Qatar)
 
 gg2 <- 
   ggplot(sdt_cases_per_million, aes(x=elapsed_days, y=total_cases_per_million, group=location, color=location)) +
-  geom_line(size = 1.3, data = sdt_cases_per_million) + 
+  geom_line(size = 1.3, data = sdt_cases_per_million %>% filter(date < "2020-09-14")) + 
   geom_text(aes(label = iso_code), size= 4, hjust = -0.1, data = sdt_cases_per_million 
-            %>% filter(date == max(date)), show.legend = F) +
+            %>% filter(date == "2020-09-13"), show.legend = F) +
   
-  geom_line(color='darkred', size = 1.5, data = Chile) +
+  geom_line(color='darkred', size = 1.5, data = Chile %>% filter(date < "2020-09-14")) +
   geom_text(aes(label = iso_code), color='darkred', size= 4, hjust = -0.1, 
-            data = Chile %>% filter(date == max(date))) +
+            data = Chile %>% filter(date == "2020-09-13")) +
   
   scale_colour_viridis_d(name = "", option = 'D', begin = 0, end = 0.8, direction = -1, alpha=0.9) +
   
@@ -116,19 +116,19 @@ gg2 <-
         plot.subtitle = element_text(hjust = 0.5, size = 16, face = "italic"),
         legend.text = element_text(color = "black", size = 14)) +
   
-  scale_x_continuous(trans = 'sqrt', breaks = c(1,2,3,4,5,10,20,50,100,172, 200,250)) + 
-  scale_y_continuous(trans = 'sqrt', breaks = c(1,10,100,1000,10000,20000,22424,30000,40000)) + 
+  scale_x_continuous(trans = 'sqrt', breaks = c(1,2,3,4,5,10,20,50,100,175, 200,250)) + 
+  scale_y_continuous(trans = 'sqrt', breaks = c(1,10,100,1000,10000,20000,22742,30000,40000)) + 
   
   geom_hline(aes(yintercept = max(Chile$total_cases_per_million)), color="red", linetype = 'dashed') +
   geom_vline(aes(xintercept = max(Chile$elapsed_days)), color="red", linetype = 'dashed') +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  labs(x = "date", 
+  labs(x = "elapsed_days", 
        y = "Total cases per million", 
        title = "Total cases per million", 
-       subtitle = "September 11, 2020", 
+       subtitle = "September 13, 2020", 
        caption = "Fuente: ourworldindata.org/coronavirus - github.com/owid")
 
-gg2
+#gg2
 
 ggsave(plot = gg2, filename = './Graficos/total_cases_per_million.png', #guardar como imagen
        units = 'mm', width = 216, height = 279, dpi = 300)
