@@ -61,13 +61,13 @@ names(sdt_deaths_per_million)
 
 gg1 <- 
   ggplot(sdt_deaths_per_million, aes(x=elapsed_days, y=total_deaths_per_million, group=location, color=location)) +
-  geom_line(size = 1.3, data = sdt_deaths_per_million %>% filter(date < "2020-11-19")) + 
+  geom_line(size = 1.3, data = sdt_deaths_per_million %>% filter(date < "2021-01-11")) + 
   geom_text(aes(label = iso_code), size= 4, hjust = -0.1, data = sdt_deaths_per_million 
-            %>% filter(date == "2020-11-19"), show.legend = F) +
+            %>% filter(date == "2021-01-11"), show.legend = F) +
   
-  geom_line(color='darkred', size = 1.5, data = Chile %>% filter(date < "2020-11-19")) +
+  geom_line(color='darkred', size = 1.5, data = Chile %>% filter(date < "2021-01-11")) +
   geom_text(aes(label = iso_code), color='darkred', size= 4, hjust = -0.1, 
-            data = Chile %>% filter(date == "2020-11-19")) +
+            data = Chile %>% filter(date == "2021-01-11")) +
   
   scale_colour_viridis_d(name = "", option = 'D', begin = 0, end = 0.8, direction = -1, alpha=0.9) +
   
@@ -87,7 +87,7 @@ gg1 <-
   labs(x = "elapsed_days", 
        y = "Total deaths per million", 
        title = "Total deaths per million", 
-       subtitle = "November 19, 2020", 
+       subtitle = "january 12, 2021", 
        caption = "Fuente: ourworldindata.org/coronavirus - github.com/owid")
 #gg1
 
@@ -101,13 +101,13 @@ sdt_cases_per_million <- rbind(Chile, Brazil, Argentina, Italy, Spain, France,  
 
 gg2 <- 
   ggplot(sdt_cases_per_million, aes(x=elapsed_days, y=total_cases_per_million, group=location, color=location)) +
-  geom_line(size = 1.3, data = sdt_cases_per_million %>% filter(date < "2020-11-19")) + 
+  geom_line(size = 1.3, data = sdt_cases_per_million %>% filter(date < "2021-01-11")) + 
   geom_text(aes(label = iso_code), size= 4, hjust = -0.1, data = sdt_cases_per_million 
-            %>% filter(date == "2020-11-19"), show.legend = F) +
+            %>% filter(date == "2021-01-11"), show.legend = F) +
   
-  geom_line(color='darkred', size = 1.5, data = Chile %>% filter(date < "2020-11-19")) +
+  geom_line(color='darkred', size = 1.5, data = Chile %>% filter(date < "2021-01-11")) +
   geom_text(aes(label = iso_code), color='darkred', size= 4, hjust = -0.1, 
-            data = Chile %>% filter(date == "2020-11-19")) +
+            data = Chile %>% filter(date == "2021-01-11")) +
   
   scale_colour_viridis_d(name = "", option = 'D', begin = 0, end = 0.8, direction = -1, alpha=0.9) +
   
@@ -126,7 +126,7 @@ gg2 <-
   labs(x = "elapsed_days", 
        y = "Total cases per million", 
        title = "Total cases per million", 
-       subtitle = "November 19, 2020", 
+       subtitle = "january 12, 2021", 
        caption = "Fuente: ourworldindata.org/coronavirus - github.com/owid")
 
 #gg2

@@ -277,7 +277,7 @@ Contry$NAME_EN <-  c("Indonesia", #cambiamos nombres de países para que coincida
     "Serranilla Bank",
     "Scarborough Shoal")
 
-View(data$location)
+
 view(shp@data$NAME_EN)
 
 ## load cvs
@@ -285,7 +285,7 @@ owid_covid_data <- read_csv("https://raw.githubusercontent.com/owid/covid-19-dat
 names(owid_covid_data)
 
 max(owid_covid_data$date)
-data <- owid_covid_data %>% filter(date == "2020-11-19") # usar max(date) con precaución.
+data <- owid_covid_data %>% filter(date == "2021-01-11") # usar max(date) con precaución.
 #data <- owid_covid_data %>% filter(date == max(date)) 
 
 # fortificamos los datos ####
@@ -336,7 +336,7 @@ gg1 <- ggplot() +
   labs(x = NULL, 
        y = NULL,
        title = "Panorama Mundial Covid19 según países", 
-       subtitle = "19 de noviembre de 2020", 
+       subtitle = "11 de enero de 2021", 
        caption = "Fuente: ourworldindata.org") +
   
   scale_fill_viridis(option = "magma",
