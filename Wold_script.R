@@ -285,7 +285,7 @@ owid_covid_data <- read_csv("https://raw.githubusercontent.com/owid/covid-19-dat
 names(owid_covid_data)
 
 max(owid_covid_data$date)
-data <- owid_covid_data %>% filter(date == "2021-01-11") # usar max(date) con precaución.
+data <- owid_covid_data %>% filter(date == "2021-03-13") # usar max(date) con precaución.
 #data <- owid_covid_data %>% filter(date == max(date)) 
 
 # fortificamos los datos ####
@@ -293,6 +293,8 @@ mps_casos <- data %>%
   group_by(location) %>%
   dplyr::summarise(total_cases = max(total_cases)) %>%  
   ungroup()
+
+mps_casos <- mutate_all(mps_casos, ~replace(., is.na(.), 0))
 
 mps_casos_sft <- st_as_sf(Contry) %>% 
   inner_join(., y = mps_casos, by = c('NAME_EN' = 'location')) 
@@ -336,7 +338,7 @@ gg1 <- ggplot() +
   labs(x = NULL, 
        y = NULL,
        title = "Panorama Mundial Covid19 según países", 
-       subtitle = "11 de enero de 2021", 
+       subtitle = "March 13, 2021", 
        caption = "Fuente: ourworldindata.org") +
   
   scale_fill_viridis(option = "magma",
